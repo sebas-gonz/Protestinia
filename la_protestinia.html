@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LA PROTESTINIA — Hecha por la gente. Para mover la calle.</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Anton (Afiche/Protesta), Space Mono (Etiquetas/Datos), Public Sans (Lectura) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            protest: {
+              bg: '#0F0F0F',
+              panel: '#161616',
+              card: '#1D1D1D',
+              border: '#2E2E2E',
+              red: '#D92B2B',
+              redHover: '#B81F1F',
+              cream: '#F3EFE6',
+              creamDark: '#E5DEC9',
+              muted: '#9E9A90',
+              yellow: '#EAB308'
+            }
+          },
+          fontFamily: {
+            display: ['Anton', 'sans-serif'],
+            mono: ['Space Mono', 'monospace'],
+            sans: ['Public Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0F0F0F;
+      color: #F3EFE6;
+      font-family: 'Public Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Brutalist / Street Poster Styles */
+    .poster-title {
+      font-family: 'Anton', sans-serif;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      line-height: 1.05;
+    }
+
+    .mono-tag {
+      font-family: 'Space Mono', monospace;
+      letter-spacing: -0.02em;
+    }
+
+    .brutal-card {
+      background-color: #1A1A1A;
+      border: 2px solid #2E2E2E;
+      box-shadow: 4px 4px 0px #080808;
+      transition: all 0.15s ease;
+    }
+
+    .brutal-card:hover {
+      border-color: #D92B2B;
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px #D92B2B;
+    }
+
+    .brutal-card-static {
+      background-color: #1A1A1A;
+      border: 2px solid #2E2E2E;
+      box-shadow: 4px 4px 0px #080808;
+    }
+
+    .brutal-cream-card {
+      background-color: #F3EFE6;
+      color: #111111;
+      border: 2px solid #111111;
+      box-shadow: 4px 4px 0px #D92B2B;
+    }
+
+    .brutal-btn-red {
+      background-color: #D92B2B;
+      color: #FFFFFF;
+      border: 2px solid #F3EFE6;
+      box-shadow: 3px 3px 0px #000000;
+      font-weight: 800;
+      text-transform: uppercase;
+      transition: all 0.12s ease;
+    }
+
+    .brutal-btn-red:hover {
+      background-color: #F33535;
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px #000000;
+    }
+
+    .brutal-btn-red:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #000000;
+    }
+
+    .brutal-btn-dark {
+      background-color: #222222;
+      color: #F3EFE6;
+      border: 2px solid #555555;
+      box-shadow: 3px 3px 0px #000000;
+      font-weight: 700;
+      text-transform: uppercase;
+      transition: all 0.12s ease;
+    }
+
+    .brutal-btn-dark:hover {
+      border-color: #F3EFE6;
+      background-color: #2C2C2C;
+    }
+
+    /* Active Sidebar Item */
+    .nav-item.active {
+      background-color: #D92B2B;
+      color: #FFFFFF;
+      border-left: 4px solid #F3EFE6;
+      font-weight: 800;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #121212;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #333333;
+      border: 1px solid #D92B2B;
+    }
+
+    /* Map Grid Background Pattern */
+    .street-map-bg {
+      background-color: #141414;
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    /* Subtle noise texture overlay */
+    .stencil-stamp {
+      border: 2px dashed #D92B2B;
+      background: rgba(217, 43, 43, 0.1);
+    }
+
+    /* View fade animation */
+    .view-section {
+      animation: fadeIn 0.2s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row selection:bg-protest-red selection:text-white">
+
+  <!-- ==========================================
+       BARRA LATERAL IZQUIERDA (FIJA EN DESKTOP)
+       ========================================== -->
+  <aside class="w-full md:w-64 lg:w-72 bg-protest-panel border-b-2 md:border-b-0 md:border-r-2 border-protest-border flex flex-col justify-between shrink-0 md:h-screen md:sticky md:top-0 z-30">
+    
+    <!-- Parte Superior: Logo + Navegación -->
+    <div>
+      <!-- Brand / Afiche Header -->
+      <div class="p-5 border-b-2 border-protest-border bg-[#121212]">
+        <div class="flex items-center justify-between">
+          <div class="cursor-pointer" onclick="switchView('inicio')">
+            <span class="inline-block bg-protest-red text-white text-[10px] mono-tag font-bold px-2 py-0.5 mb-1 border border-white/30">
+              <i class="fa-solid fa-bullhorn mr-1"></i> PLATAFORMA POPULAR
+            </span>
+            <h1 class="poster-title text-3xl lg:text-4xl tracking-wider text-protest-cream">
+              LA <span class="text-protest-red">PROTESTINIA</span>
+            </h1>
+            <p class="mono-tag text-[11px] text-protest-muted mt-1 leading-tight font-bold">
+              HECHA POR LA GENTE.<br/>PARA MOVER LA CALLE.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menú de Navegación Principal -->
+      <nav class="p-3 space-y-1.5" aria-label="Navegación Principal">
+        <button onclick="switchView('inicio')" id="nav-inicio" class="nav-item active w-full flex items-center justify-between px-3.5 py-2.5 text-left text-sm rounded-none transition-colors hover:bg-white/5">
+          <span class="flex items-center gap-3">
+            <i class="fa-solid fa-house-chimney w-4 text-center"></i>
+            <span>Inicio</span>
+          </span>
+        </button>
+
+        <button onclick="switchView('detalle')" id="nav-detalle" class="nav-item w-full flex items-center justify-between px-3.5 py-2.5 text-left text-sm rounded-none transition-colors hover:bg-white/5">
+          <span class="flex items-center gap-3">
+            <i class="fa-solid fa-bullhorn w-4 text-center"></i>
+            <span>Convocatorias</span>
+          </span>
+          <span class="mono-tag text-xs bg-[#2A2A2A] text-protest-cream px-2 py-0.5 border border-white/20 font-bold">12</span>
+        </button>
+
+        <button onclick="switchView('mismarchas')" id="nav-mismarchas" class="nav-item w-full flex items-center justify-between px-3.5 py-2.5 text-left text-sm rounded-none transition-colors hover:bg-white/5">
+          <span class="flex items-center gap-3">
+            <i class="fa-solid fa-fist-raised w-4 text-center"></i>
+            <span>Mis Marchas</span>
+          </span>
+          <span id="badge-mismarchas" class="mono-tag text-xs bg-[#2A2A2A] text-protest-cream px-2 py-0.5 border border-white/20 font-bold">4</span>
+        </button>
+
+        <button onclick="switchView('chatgrupal')" id="nav-chatgrupal" class="nav-item w-full flex items-center justify-between px-3.5 py-2.5 text-left text-sm rounded-none transition-colors hover:bg-white/5">
+          <span class="flex items-center gap-3">
+            <i class="fa-solid fa-comments w-4 text-center"></i>
+            <span>Chats</span>
+          </span>
+          <span class="mono-tag text-xs bg-protest-red text-white px-2 py-0.5 border border-white/30 font-bold">3</span>
+        </button>
+
+        <button onclick="openAuthModal()" id="nav-autorizaciones" class="nav-item w-full flex items-center justify-between px-3.5 py-2.5 text-left text-sm rounded-none transition-colors hover:bg-white/5">
+          <span class="flex items-center gap-3">
+            <i class="fa-solid fa-file-shield w-4 text-center"></i>
+            <span>Autorizaciones</span>
+          </span>
+          <span class="mono-tag text-xs bg-[#2A2A2A] text-protest-cream px-2 py-0.5 border border-white/20 font-bold">2</span>
+        </button>
+      </nav>
+
+      <!-- Afiche Callejero Lateral: "Nadie cambia la ciudad en solitario" -->
+      <div class="mx-3 my-3 p-3.5 bg-[#1E1414] border-2 border-protest-red shadow-[3px_3px_0px_#000]">
+        <p class="poster-title text-lg text-protest-cream leading-tight">
+          NADIE CAMBIA LA CIUDAD EN SOLITARIO.
+        </p>
+        <p class="text-xs text-protest-muted mt-1 leading-snug">
+          Trae a tu gente. Hagamos ruido juntos.
+        </p>
+        <button onclick="showToast('Enlace de invitación copiado al portapapeles: laprotestinia.cl/sumate')" class="mt-3 w-full brutal-btn-red py-1.5 px-2 text-xs flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-share-nodes"></i> Invitar a la comunidad
+        </button>
+        <button onclick="showToast('Guía comunitaria y soporte legal abierto')" class="mt-2 w-full text-left mono-tag text-[11px] text-protest-muted hover:text-white underline">
+          ¿Necesitas una mano?
+        </button>
+      </div>
+    </div>
+
+    <!-- Parte Inferior: Perfil de Usuario + Lema -->
+    <div class="p-3.5 border-t-2 border-protest-border bg-[#111111]">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-protest-red border-2 border-protest-cream flex items-center justify-center font-bold mono-tag text-white shrink-0">
+          CM
+        </div>
+        <div class="overflow-hidden">
+          <p class="font-bold text-sm text-protest-cream truncate">Camila Morales</p>
+          <span class="inline-block mono-tag text-[10px] bg-[#252525] text-protest-red px-1.5 py-0.5 border border-protest-red/40 font-bold">
+            UNA MÁS EN LA CALLE
+          </span>
+        </div>
+      </div>
+      <div class="mt-3 pt-2.5 border-t border-white/10">
+        <p class="mono-tag text-[10px] text-protest-muted uppercase leading-tight">
+          ESTO NO ES UN FEED.<br/>
+          <span class="text-protest-cream font-bold">ES UNA CIUDAD PONIÉNDOSE DE PIE.</span>
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       CONTENIDO PRINCIPAL (5 VISTAS INTERACTIVAS)
+       ========================================== -->
+  <div class="flex-1 flex flex-col min-w-0 bg-protest-bg">
+
+    <!-- Barra Superior Común (Breadcrumbs + Buscador + Ciudad) -->
+    <header class="bg-[#141414] border-b-2 border-protest-border px-6 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-20">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 bg-protest-red inline-block"></span>
+        <span id="top-breadcrumb" class="mono-tag text-xs font-bold tracking-wider text-protest-muted uppercase">
+          MI COMUNIDAD / <span class="text-protest-cream">INICIO</span>
+        </span>
+      </div>
+
+      <div class="flex items-center gap-3 flex-1 max-w-xl justify-end">
+        <div class="relative flex-1 max-w-xs hidden sm:block">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-protest-muted text-xs"></i>
+          <input 
+            type="text" 
+            id="global-search"
+            onkeyup="handleGlobalSearch(this.value)"
+            placeholder="Buscar convocatorias, marchas..." 
+            class="w-full bg-[#1F1F1F] border border-protest-border focus:border-protest-red text-xs text-protest-cream pl-8 pr-3 py-1.5 outline-none mono-tag"
+          />
+        </div>
+        <button onclick="showToast('Ubicación activa: Santiago de Chile (Región Metropolitana)')" class="mono-tag text-xs bg-[#222222] border border-protest-border px-3 py-1.5 text-protest-cream hover:border-protest-red flex items-center gap-1.5 shrink-0">
+          <i class="fa-solid fa-location-dot text-protest-red"></i>
+          <span>SANTIAGO, CHILE +</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Contenedor Dinámico de Vistas -->
+    <main class="flex-1 p-5 lg:p-7 max-w-7xl w-full mx-auto">
+
+      <!-- ========================================================
+           VISTA 1: INICIO (Vista Web - Inicio.pdf)
+           ======================================================== -->
+      <section id="view-inicio" class="view-section space-y-6">
+        
+        <!-- Cabecera Hero + KPIs -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          <!-- Saludo Hero -->
+          <div class="lg:col-span-7 brutal-card-static p-6 bg-gradient-to-br from-[#1E1414] to-[#151515] border-l-4 border-l-protest-red flex flex-col justify-between">
+            <div>
+              <span class="mono-tag text-xs text-protest-red font-bold uppercase tracking-widest">
+                // ORGANIZACIÓN BARRIAL Y POPULAR
+              </span>
+              <h2 class="poster-title text-4xl sm:text-5xl text-protest-cream mt-1">
+                LA CALLE ES NUESTRA.
+              </h2>
+              <p class="text-protest-cream/90 text-base sm:text-lg mt-2 font-medium">
+                Hola, Camila. La ciudad no cambia sola. Nos vemos afuera.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs mono-tag text-protest-muted">
+              <span>CONVOCATORIAS, MUCHAS RAZONES PARA SALIR</span>
+              <span class="text-protest-cream font-bold">SIN PEDIR PERMISO PARA SOÑAR OTRA CIUDAD</span>
+            </div>
+          </div>
+
+          <!-- 2 Tarjetas de Estadísticas Rústicas -->
+          <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+            <div class="brutal-card p-5 flex flex-col justify-between cursor-pointer" onclick="switchView('detalle')">
+              <div class="flex items-center justify-between">
+                <span class="mono-tag text-[11px] bg-protest-red/20 text-protest-red px-2 py-0.5 border border-protest-red font-bold">
+                  SANTIAGO SE MUEVE
+                </span>
+                <i class="fa-solid fa-fire text-protest-red"></i>
+              </div>
+              <div class="my-2">
+                <div class="poster-title text-5xl text-protest-cream">12</div>
+                <div class="text-sm font-bold text-protest-muted mt-0.5">Eventos activos</div>
+              </div>
+              <div class="mono-tag text-[11px] text-protest-cream underline">
+                VER LAS 12 →
+              </div>
+            </div>
+
+            <div class="brutal-card p-5 flex flex-col justify-between cursor-pointer" onclick="switchView('chatgrupal')">
+              <div class="flex items-center justify-between">
+                <span class="mono-tag text-[11px] bg-white/10 text-protest-cream px-2 py-0.5 border border-white/20 font-bold">
+                  +86 VOCES ESTE MES
+                </span>
+                <i class="fa-solid fa-users text-protest-cream"></i>
+              </div>
+              <div class="my-2">
+                <div class="poster-title text-5xl text-protest-red">1.284</div>
+                <div class="text-sm font-bold text-protest-muted mt-0.5">Compañeros en la calle</div>
+              </div>
+              <div class="mono-tag text-[11px] text-protest-muted">
+                ACTIVOS EN SANTIAGO
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cuerpo Principal: Próximas Marchas (Izquierda) + Mapa Orientativo (Derecha) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- Columna Izquierda: Próximas Marchas / 04 -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-protest-border pb-3">
+              <div class="flex items-baseline gap-3">
+                <h3 class="poster-title text-2xl sm:text-3xl text-protest-cream">Próximas marchas</h3>
+                <span class="mono-tag text-lg text-protest-red font-bold">/ 04</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="switchView('mismarchas')" class="brutal-btn-dark text-xs px-3 py-1.5 mono-tag">
+                  TODAS MIS MARCHAS
+                </button>
+              </div>
+            </div>
+
+            <!-- Grid 2x2 de Tarjetas de Convocatorias -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="inicio-events-grid">
+              
+              <!-- Evento 1 -->
+              <article class="brutal-card p-4 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between gap-2 mb-3">
+                    <div class="bg-protest-red text-white px-2.5 py-1 border border-white/40 text-center leading-none">
+                      <span class="poster-title text-xl block">24</span>
+                      <span class="mono-tag text-[10px] font-bold">OCT 2026</span>
+                    </div>
+                    <span class="mono-tag text-[10px] bg-[#292929] text-protest-cream px-2 py-1 border border-white/15 font-bold">
+                      DERECHO A LA CIUDAD
+                    </span>
+                  </div>
+                  <h4 class="poster-title text-xl text-protest-cream tracking-wide hover:text-protest-red cursor-pointer" onclick="openEventDetail('Marcha por la Vivienda Digna', 'DERECHO A LA CIUDAD', 'Plaza Baquedano', 'Sábado 14 nov. 2026 · 10:00 h', 347)">
+                    Encuentro por una ciudad más justa
+                  </h4>
+                  <p class="text-xs text-protest-muted mt-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-location-dot text-protest-red"></i> Plaza Baquedano
+                  </p>
+                  <p class="mono-tag text-[11px] text-protest-muted mt-1">
+                    24 octubre 2026 · 10:00–13:00
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                  <span class="mono-tag text-xs text-protest-cream font-bold">
+                    <i class="fa-solid fa-user-group text-protest-red mr-1"></i> 248 ya se sumaron
+                  </span>
+                  <button onclick="openEventDetail('Marcha por la Vivienda Digna', 'DERECHO A LA VIVIENDA', 'Plaza Baquedano', 'Sábado 14 nov. 2026 · 10:00 h', 347)" class="brutal-btn-red text-xs px-3 py-1">
+                    Unirse
+                  </button>
+                </div>
+              </article>
+
+              <!-- Evento 2 -->
+              <article class="brutal-card p-4 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between gap-2 mb-3">
+                    <div class="bg-[#292929] text-protest-cream px-2.5 py-1 border border-white/30 text-center leading-none">
+                      <span class="poster-title text-xl block">25</span>
+                      <span class="mono-tag text-[10px] font-bold">OCT 2026</span>
+                    </div>
+                    <span class="mono-tag text-[10px] bg-[#292929] text-protest-cream px-2 py-1 border border-white/15 font-bold">
+                      MOVILIDAD DIGNA
+                    </span>
+                  </div>
+                  <h4 class="poster-title text-xl text-protest-cream tracking-wide hover:text-protest-red cursor-pointer" onclick="openEventDetail('Pedaleamos por una movilidad digna', 'MOVILIDAD DIGNA', 'Alameda · Metro U. de Chile', '25 octubre 2026 · 09:30–12:00', 186)">
+                    Pedaleamos por una movilidad digna
+                  </h4>
+                  <p class="text-xs text-protest-muted mt-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-location-dot text-protest-red"></i> Alameda · Metro U. de Chile
+                  </p>
+                  <p class="mono-tag text-[11px] text-protest-muted mt-1">
+                    25 octubre 2026 · 09:30–12:00
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                  <span class="mono-tag text-xs text-protest-cream font-bold">
+                    <i class="fa-solid fa-user-group text-protest-red mr-1"></i> 186 ya se sumaron
+                  </span>
+                  <button onclick="openEventDetail('Pedaleamos por una movilidad digna', 'MOVILIDAD DIGNA', 'Alameda · Metro U. de Chile', '25 octubre 2026 · 09:30–12:00', 186)" class="brutal-btn-red text-xs px-3 py-1">
+                    Unirse
+                  </button>
+                </div>
+              </article>
+
+              <!-- Evento 3 -->
+              <article class="brutal-card p-4 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between gap-2 mb-3">
+                    <div class="bg-[#292929] text-protest-cream px-2.5 py-1 border border-white/30 text-center leading-none">
+                      <span class="poster-title text-xl block">31</span>
+                      <span class="mono-tag text-[10px] font-bold">OCT 2026</span>
+                    </div>
+                    <span class="mono-tag text-[10px] bg-[#292929] text-protest-cream px-2 py-1 border border-white/15 font-bold">
+                      LA VOZ DEL BARRIO
+                    </span>
+                  </div>
+                  <h4 class="poster-title text-xl text-protest-cream tracking-wide hover:text-protest-red cursor-pointer" onclick="openEventDetail('Cabildo abierto barrial', 'LA VOZ DEL BARRIO', 'Parque de las Esculturas', '31 octubre 2026 · 11:00–13:30', 92)">
+                    Cabildo abierto
+                  </h4>
+                  <p class="text-xs text-protest-muted mt-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-location-dot text-protest-red"></i> Parque de las Esculturas
+                  </p>
+                  <p class="mono-tag text-[11px] text-protest-muted mt-1">
+                    31 octubre 2026 · 11:00–13:30
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                  <span class="mono-tag text-xs text-protest-cream font-bold">
+                    <i class="fa-solid fa-user-group text-protest-red mr-1"></i> 92 ya se sumaron
+                  </span>
+                  <button onclick="openEventDetail('Cabildo abierto barrial', 'LA VOZ DEL BARRIO', 'Parque de las Esculturas', '31 octubre 2026 · 11:00–13:30', 92)" class="brutal-btn-red text-xs px-3 py-1">
+                    Unirse
+                  </button>
+                </div>
+              </article>
+
+              <!-- Evento 4 -->
+              <article class="brutal-card p-4 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between gap-2 mb-3">
+                    <div class="bg-[#292929] text-protest-cream px-2.5 py-1 border border-white/30 text-center leading-none">
+                      <span class="poster-title text-xl block">07</span>
+                      <span class="mono-tag text-[10px] font-bold">NOV 2026</span>
+                    </div>
+                    <span class="mono-tag text-[10px] bg-[#292929] text-protest-cream px-2 py-1 border border-white/15 font-bold">
+                      EL BARRIO SE CUIDA
+                    </span>
+                  </div>
+                  <h4 class="poster-title text-xl text-protest-cream tracking-wide hover:text-protest-red cursor-pointer" onclick="openEventDetail('Recuperemos nuestros espacios verdes', 'EL BARRIO SE CUIDA', 'Parque Forestal · Bellas Artes', '7 noviembre 2026 · 10:00–12:30', 64)">
+                    Recuperemos nuestros espacios verdes
+                  </h4>
+                  <p class="text-xs text-protest-muted mt-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-location-dot text-protest-red"></i> Parque Forestal · Bellas Artes
+                  </p>
+                  <p class="mono-tag text-[11px] text-protest-muted mt-1">
+                    7 noviembre 2026 · 10:00–12:30
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                  <span class="mono-tag text-xs text-protest-cream font-bold">
+                    <i class="fa-solid fa-user-group text-protest-red mr-1"></i> 64 ya se sumaron
+                  </span>
+                  <button onclick="openEventDetail('Recuperemos nuestros espacios verdes', 'EL BARRIO SE CUIDA', 'Parque Forestal · Bellas Artes', '7 noviembre 2026 · 10:00–12:30', 64)" class="brutal-btn-red text-xs px-3 py-1">
+                    Unirse
+                  </button>
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Mapa Orientativo de Santiago (Modo Oscuro) -->
+          <div class="lg:col-span-5 flex flex-col justify-between brutal-card-static p-4 bg-[#141414]">
+            <div>
+              <div class="flex items-center justify-between border-b border-protest-border pb-2.5 mb-3">
+                <div>
+                  <span class="mono-tag text-[10px] text-protest-red font-bold block">SANTIAGO SE ORGANIZA</span>
+                  <h4 class="poster-title text-xl text-protest-cream">PUNTOS DE ENCUENTRO · MAPA ORIENTATIVO</h4>
+                </div>
+                <span class="mono-tag text-[11px] bg-[#222] px-2 py-1 border border-white/15 text-protest-cream">
+                  N ↑
+                </span>
+              </div>
+
+              <!-- Mapa Callejero SVG de Santiago -->
+              <div class="relative w-full h-80 street-map-bg border-2 border-protest-border overflow-hidden select-none">
+                <svg viewBox="0 0 500 340" class="w-full h-full">
+                  <!-- Río Mapocho -->
+                  <path d="M 0 95 Q 180 80, 320 65 T 500 45" fill="none" stroke="#263238" stroke-width="18" />
+                  <path d="M 0 95 Q 180 80, 320 65 T 500 45" fill="none" stroke="#37474F" stroke-width="2" stroke-dasharray="6,6" />
+                  
+                  <!-- Parque Forestal / Áreas verdes -->
+                  <polygon points="240,75 350,62 355,95 245,105" fill="#1B2A1E" opacity="0.8" />
+                  <polygon points="140,240 230,235 230,275 140,280" fill="#1B2A1E" opacity="0.8" />
+
+                  <!-- Arterias principales: Alameda -->
+                  <line x1="0" y1="210" x2="500" y2="125" stroke="#383838" stroke-width="14" />
+                  <line x1="0" y1="210" x2="500" y2="125" stroke="#D92B2B" stroke-width="3" stroke-dasharray="8,4" />
+
+                  <!-- Calles secundarias -->
+                  <line x1="190" y1="0" x2="210" y2="340" stroke="#252525" stroke-width="6" />
+                  <line x1="365" y1="0" x2="395" y2="340" stroke="#2A2A2A" stroke-width="8" />
+                  <line x1="0" y1="270" x2="500" y2="255" stroke="#252525" stroke-width="5" />
+
+                  <!-- Etiquetas de Barrios y Calles -->
+                  <text x="25" y="45" fill="#6E6E6E" font-family="Space Mono" font-size="10" font-weight="bold">RECOLETA</text>
+                  <text x="65" y="84" fill="#546E7A" font-family="Space Mono" font-size="9" font-weight="bold">RÍO MAPOCHO</text>
+                  <text x="245" y="102" fill="#8E8E8E" font-family="Space Mono" font-size="10" font-weight="bold">BELLAS ARTES</text>
+                  <text x="80" y="145" fill="#777" font-family="Space Mono" font-size="10" font-weight="bold">SANTIAGO CENTRO</text>
+                  <text x="210" y="192" fill="#B0B0B0" font-family="Space Mono" font-size="10" font-weight="bold" transform="rotate(-10 210,192)">ALAMEDA</text>
+                  <text x="310" y="295" fill="#6E6E6E" font-family="Space Mono" font-size="9">AV. SANTA ISABEL</text>
+                </svg>
+
+                <!-- Pin Interactivo 1: Plaza Baquedano -->
+                <button onclick="openEventDetail('Marcha por la Vivienda Digna', 'DERECHO A LA VIVIENDA', 'Plaza Baquedano', 'Sábado 14 nov. 2026 · 10:00 h', 347)" 
+                        class="absolute top-[36%] left-[72%] -translate-x-1/2 -translate-y-1/2 group text-left">
+                  <span class="animate-ping absolute inline-flex h-7 w-7 rounded-full bg-protest-red opacity-75"></span>
+                  <div class="relative flex items-center gap-1.5 bg-protest-red text-white px-2.5 py-1 border-2 border-white shadow-md">
+                    <i class="fa-solid fa-bullhorn text-xs"></i>
+                    <span class="mono-tag text-[10px] font-bold whitespace-nowrap">Plaza Baquedano</span>
+                  </div>
+                </button>
+
+                <!-- Pin Interactivo 2: Alameda / U. de Chile -->
+                <button onclick="openEventDetail('Pedaleamos por una movilidad digna', 'MOVILIDAD DIGNA', 'Alameda · Metro U. de Chile', '25 octubre 2026 · 09:30–12:00', 186)" 
+                        class="absolute top-[55%] left-[38%] -translate-x-1/2 -translate-y-1/2 group">
+                  <div class="bg-[#181818] hover:bg-protest-red text-protest-cream px-2 py-0.5 border border-protest-red shadow-md flex items-center gap-1 transition-colors">
+                    <span class="w-2 h-2 rounded-full bg-protest-red"></span>
+                    <span class="mono-tag text-[10px] font-bold whitespace-nowrap">Alameda</span>
+                  </div>
+                </button>
+
+                <!-- Pin Interactivo 3: Parque Almagro -->
+                <button onclick="openEventDetail('El agua es un derecho, no un privilegio', 'MEDIOAMBIENTE', 'Parque Almagro · Santiago', 'Sábado 28 nov 2026 · 10:30 h', 210)" 
+                        class="absolute top-[76%] left-[36%] -translate-x-1/2 -translate-y-1/2 group">
+                  <div class="bg-[#181818] hover:bg-protest-red text-protest-cream px-2 py-0.5 border border-protest-red shadow-md flex items-center gap-1 transition-colors">
+                    <span class="w-2 h-2 rounded-full bg-protest-red"></span>
+                    <span class="mono-tag text-[10px] font-bold whitespace-nowrap">Parque Almagro</span>
+                  </div>
+                </button>
+
+                <div class="absolute bottom-2 right-2 bg-black/80 px-2 py-1 border border-white/15 mono-tag text-[10px] text-protest-muted">
+                  Haz clic en un punto para ver la convocatoria
+                </div>
+              </div>
+            </div>
+
+            <!-- Banner Inferior de Cuidado Colectivo -->
+            <div class="mt-4 p-3.5 bg-[#1C1917] border-l-4 border-protest-red flex items-center justify-between gap-3">
+              <div>
+                <h5 class="poster-title text-base text-protest-cream tracking-wide">
+                  <i class="fa-solid fa-heart-pulse text-protest-red mr-1"></i> NOS CUIDAMOS ENTRE TODOS.
+                </h5>
+                <p class="text-xs text-protest-muted mt-0.5">
+                  Lleva agua, acuerda un punto de encuentro y no dejes a nadie atrás. Participar también es cuidarnos.
+                </p>
+              </div>
+              <button onclick="showToast('Protocolo de seguridad ciudadana y piquetes de salud descargado')" class="mono-tag text-[10px] font-bold text-protest-red hover:underline shrink-0">
+                GUÍA SEGURA →
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ========================================================
+           VISTA 2: MIS MARCHAS (Vista Web - Mis Marchas.pdf)
+           ======================================================== -->
+      <section id="view-mismarchas" class="view-section hidden space-y-6">
+        
+        <!-- Header Mis Marchas -->
+        <div class="brutal-card-static p-6 bg-[#161616] border-l-4 border-l-protest-red flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span class="mono-tag text-xs text-protest-red font-bold uppercase">
+              TU ESPACIO / ORGANIZACIÓN COLECTIVA
+            </span>
+            <h2 class="poster-title text-4xl sm:text-5xl text-protest-cream mt-1">
+              MIS MARCHAS
+            </h2>
+            <p class="text-protest-muted text-sm sm:text-base mt-1">
+              Las causas que te mueven. La gente con la que sales a la calle.
+            </p>
+          </div>
+          <div class="bg-[#1F1616] border border-protest-red px-4 py-2.5 text-right">
+            <p class="poster-title text-lg text-protest-cream">LA CALLE ES DE TODOS Y TODAS.</p>
+            <p class="mono-tag text-xs text-protest-red font-bold">Nos vemos afuera.</p>
+          </div>
+        </div>
+
+        <!-- Barra de Pestañas (Próximas / Finalizadas) -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b-2 border-protest-border pb-3">
+          <div class="flex items-center gap-2">
+            <button id="tab-proximas" onclick="filterMyMarches('proximas')" class="brutal-btn-red px-4 py-2 text-xs mono-tag flex items-center gap-2">
+              <span>Próximas</span>
+              <span id="count-proximas" class="bg-black/40 px-1.5 py-0.5 text-[11px]">4</span>
+            </button>
+            <button id="tab-finalizadas" onclick="filterMyMarches('finalizadas')" class="brutal-btn-dark px-4 py-2 text-xs mono-tag flex items-center gap-2">
+              <span>Finalizadas</span>
+              <span class="bg-black/40 px-1.5 py-0.5 text-[11px]">2</span>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="mono-tag text-xs text-protest-muted">
+              <i class="fa-solid fa-arrow-down-short-wide text-protest-red mr-1"></i> PRIMERO LAS MÁS CERCANAS
+            </span>
+          </div>
+        </div>
+
+        <!-- Cuadrícula de Tarjetas de "Mis Marchas" (Próximas) -->
+        <div id="mismarchas-proximas-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          
+          <!-- Marcha Inscrita 1 -->
+          <article class="brutal-card p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="mono-tag text-xs bg-protest-red/20 text-protest-red px-2.5 py-1 border border-protest-red font-bold">
+                  EDUCACIÓN
+                </span>
+                <span class="mono-tag text-xs bg-[#262626] text-protest-cream px-2.5 py-1 border border-white/20 flex items-center gap-1.5 font-bold">
+                  <i class="fa-solid fa-user-check text-green-400"></i> Con Cuenta
+                </span>
+              </div>
+              <h3 class="poster-title text-2xl sm:text-3xl text-protest-cream tracking-wide">
+                POR UNA EDUCACIÓN PÚBLICA Y DIGNA
+              </h3>
+              <div class="mt-3 space-y-1 text-sm text-protest-muted">
+                <p class="flex items-center gap-2">
+                  <i class="fa-regular fa-calendar text-protest-red w-4"></i>
+                  <span class="mono-tag text-xs text-protest-cream">Sábado 07 nov 2026 - 11:00 h</span>
+                </p>
+                <p class="flex items-center gap-2">
+                  <i class="fa-solid fa-location-dot text-protest-red w-4"></i>
+                  <span>Plaza Baquedano · Providencia</span>
+                </p>
+              </div>
+            </div>
+            <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <button onclick="openEventDetail('Por una Educación Pública y Digna', 'EDUCACIÓN', 'Plaza Baquedano · Providencia', 'Sábado 07 nov 2026 - 11:00 h', 412)" class="text-xs mono-tag text-protest-muted hover:text-white underline">
+                Ver recorrido y detalles
+              </button>
+              <button onclick="openChatForMarch('Por una Educación Pública y Digna', 412, 'SÁB 07 NOV · 11:00')" class="brutal-btn-red px-4 py-2 text-xs flex items-center gap-2">
+                <i class="fa-solid fa-comments"></i> Ir al Chat Grupal
+              </button>
+            </div>
+          </article>
+
+          <!-- Marcha Inscrita 2 -->
+          <article class="brutal-card p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="mono-tag text-xs bg-protest-red/20 text-protest-red px-2.5 py-1 border border-protest-red font-bold">
+                  MEDIOAMBIENTE
+                </span>
+                <span class="mono-tag text-xs bg-[#262626] text-protest-cream px-2.5 py-1 border border-white/20 flex items-center gap-1.5 font-bold">
+                  <i class="fa-solid fa-user-check text-green-400"></i> Con Cuenta
+                </span>
+              </div>
+              <h3 class="poster-title text-2xl sm:text-3xl text-protest-cream tracking-wide">
+                EL AGUA ES UN DERECHO, NO UN PRIVILEGIO.
+              </h3>
+              <div class="mt-3 space-y-1 text-sm text-protest-muted">
+                <p class="flex items-center gap-2">
+                  <i class="fa-regular fa-calendar text-protest-red w-4"></i>
+                  <span class="mono-tag text-xs text-protest-cream">Sábado 28 nov 2026 - 10:30 h</span>
+                </p>
+                <p class="flex items-center gap-2">
+                  <i class="fa-solid fa-location-dot text-protest-red w-4"></i>
+                  <span>Parque Almagro · Santiago</span>
+                </p>
+              </div>
+            </div>
+            <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <button onclick="openEventDetail('El agua es un derecho, no un privilegio', 'MEDIOAMBIENTE', 'Parque Almagro · Santiago', 'Sábado 28 nov 2026 - 10:30 h', 289)" class="text-xs mono-tag text-protest-muted hover:text-white underline">
+                Ver recorrido y detalles
+              </button>
+              <button onclick="openChatForMarch('El agua es un derecho, no un privilegio', 289, 'SÁB 28 NOV · 10:30')" class="brutal-btn-red px-4 py-2 text-xs flex items-center gap-2">
+                <i class="fa-solid fa-comments"></i> Ir al Chat Grupal
+              </button>
+            </div>
+          </article>
+
+          <!-- Marcha Inscrita 3 -->
+          <article class="brutal-card p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="mono-tag text-xs bg-protest-red/20 text-protest-red px-2.5 py-1 border border-protest-red font-bold">
+                  DERECHOS
+                </span>
+                <span class="mono-tag text-xs bg-[#141414] text-protest-yellow px-2.5 py-1 border border-protest-yellow/50 flex items-center gap-1.5 font-bold">
+                  <i class="fa-solid fa-user-secret"></i> Anónimo
+                </span>
+              </div>
+              <h3 class="poster-title text-2xl sm:text-3xl text-protest-cream tracking-wide">
+                NI UNA MENOS. JUNTAS EN LA CALLE.
+              </h3>
+              <div class="mt-3 space-y-1 text-sm text-protest-muted">
+                <p class="flex items-center gap-2">
+                  <i class="fa-regular fa-calendar text-protest-red w-4"></i>
+                  <span class="mono-tag text-xs text-protest-cream">Miércoles 25 nov 2026 - 18:00 h</span>
+                </p>
+                <p class="flex items-center gap-2">
+                  <i class="fa-solid fa-location-dot text-protest-red w-4"></i>
+                  <span>Plaza de Armas · Santiago</span>
+                </p>
+              </div>
+            </div>
+            <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <button onclick="openEventDetail('Ni Una Menos. Juntas en la calle', 'DERECHOS', 'Plaza de Armas · Santiago', 'Miércoles 25 nov 2026 - 18:00 h', 640)" class="text-xs mono-tag text-protest-muted hover:text-white underline">
+                Ver recorrido y detalles
+              </button>
+              <button onclick="openChatForMarch('Ni Una Menos. Juntas en la calle', 640, 'MIÉ 25 NOV · 18:00')" class="brutal-btn-red px-4 py-2 text-xs flex items-center gap-2">
+                <i class="fa-solid fa-comments"></i> Ir al Chat Grupal
+              </button>
+            </div>
+          </article>
+
+          <!-- Marcha Inscrita 4 -->
+          <article class="brutal-card p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="mono-tag text-xs bg-protest-red/20 text-protest-red px-2.5 py-1 border border-protest-red font-bold">
+                  VIVIENDA
+                </span>
+                <span class="mono-tag text-xs bg-[#141414] text-protest-yellow px-2.5 py-1 border border-protest-yellow/50 flex items-center gap-1.5 font-bold">
+                  <i class="fa-solid fa-user-secret"></i> Anónimo
+                </span>
+              </div>
+              <h3 class="poster-title text-2xl sm:text-3xl text-protest-cream tracking-wide">
+                POR EL DERECHO A LA VIVIENDA
+              </h3>
+              <div class="mt-3 space-y-1 text-sm text-protest-muted">
+                <p class="flex items-center gap-2">
+                  <i class="fa-regular fa-calendar text-protest-red w-4"></i>
+                  <span class="mono-tag text-xs text-protest-cream">Sábado 05 dic 2026 - 11:00 h</span>
+                </p>
+                <p class="flex items-center gap-2">
+                  <i class="fa-solid fa-location-dot text-protest-red w-4"></i>
+                  <span>Plaza Los Héroes · Santiago</span>
+                </p>
+              </div>
+            </div>
+            <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <button onclick="openEventDetail('Marcha por la Vivienda Digna', 'DERECHO A LA VIVIENDA', 'Plaza Baquedano a Los Héroes', 'Sábado 14 nov. 2026 · 10:00 h', 347)" class="text-xs mono-tag text-protest-muted hover:text-white underline">
+                Ver recorrido y detalles
+              </button>
+              <button onclick="openChatForMarch('Marcha por la Vivienda Digna', 347, 'SÁB 14 NOV · 10:00')" class="brutal-btn-red px-4 py-2 text-xs flex items-center gap-2">
+                <i class="fa-solid fa-comments"></i> Ir al Chat Grupal
+              </button>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Cuadrícula Oculta de Marchas Finalizadas (Para mostrar interactividad de pestañas) -->
+        <div id="mismarchas-finalizadas-grid" class="hidden grid-cols-1 md:grid-cols-2 gap-5">
+          <article class="brutal-card-static p-5 opacity-75">
+            <div class="flex items-center justify-between mb-2">
+              <span class="mono-tag text-xs bg-white/10 text-protest-muted px-2 py-0.5">FINALIZADA · SEP 2026</span>
+              <span class="mono-tag text-xs text-protest-yellow"><i class="fa-solid fa-user-secret mr-1"></i>Anónimo</span>
+            </div>
+            <h3 class="poster-title text-2xl text-protest-cream">MARCHA POR LA SALUD DIGNA BARRIAL</h3>
+            <p class="text-xs text-protest-muted mt-1">Plaza Baquedano · 815 asistentes</p>
+          </article>
+          <article class="brutal-card-static p-5 opacity-75">
+            <div class="flex items-center justify-between mb-2">
+              <span class="mono-tag text-xs bg-white/10 text-protest-muted px-2 py-0.5">FINALIZADA · AGO 2026</span>
+              <span class="mono-tag text-xs text-green-400"><i class="fa-solid fa-user-check mr-1"></i>Con Cuenta</span>
+            </div>
+            <h3 class="poster-title text-2xl text-protest-cream">ASAMBLEA ABIERTA TRANSPORTE PÚBLICO</h3>
+            <p class="text-xs text-protest-muted mt-1">Parque Almagro · 310 asistentes</p>
+          </article>
+        </div>
+
+        <!-- Footer de Mis Marchas -->
+        <div class="brutal-card-static p-5 bg-[#141414] flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h4 class="poster-title text-xl text-protest-cream">NO MARCHAS SOLA. ¡AQUÍ NOS ENCONTRAMOS!</h4>
+            <p class="text-xs text-protest-muted mt-0.5">
+              Ayuda y cuidados colectivos: La organización también es cuidado. Coordina el encuentro y revisa los avisos en el chat antes de salir.
+            </p>
+          </div>
+          <button onclick="switchView('inicio')" class="brutal-btn-dark px-5 py-2.5 text-xs mono-tag">
+            <i class="fa-solid fa-compass mr-1.5 text-protest-red"></i> Buscar más convocatorias
+          </button>
+        </div>
+      </section>
+
+
+      <!-- ========================================================
+           VISTA 3: INFORMACIÓN DE LA MARCHA / DETALLE
+           (Vista Web - Informacion de la marcha.pdf)
+           ======================================================== -->
+      <section id="view-detalle" class="view-section hidden space-y-5">
+        
+        <!-- Barra Superior de Retorno y Acciones -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <button onclick="switchView('inicio')" class="mono-tag text-xs text-protest-muted hover:text-protest-cream flex items-center gap-2 font-bold">
+            <i class="fa-solid fa-arrow-left text-protest-red"></i> VOLVER A CONVOCATORIAS
+          </button>
+          <div class="flex items-center gap-2">
+            <button onclick="showToast('Convocatoria guardada en tus marcadores')" class="brutal-btn-dark px-3 py-1.5 text-xs mono-tag">
+              + GUARDAR MARCHA
+            </button>
+            <button onclick="showToast('Enlace de difusión copiado para compartir en redes')" class="brutal-btn-dark px-3 py-1.5 text-xs mono-tag">
+              <i class="fa-solid fa-bullhorn text-protest-red mr-1"></i> CORRE LA VOZ
+            </button>
+          </div>
+        </div>
+
+        <!-- Diseño en 2 Columnas: Información e Inscripción (Izquierda) + Mapa de Recorrido (Derecha) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Columna Izquierda: Detalles de la Convocatoria + Botones de Inscripción -->
+          <div class="lg:col-span-6 space-y-5 brutal-card-static p-6 bg-[#161616]">
+            
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="detail-category" class="mono-tag text-xs bg-protest-red text-white px-2.5 py-1 font-bold">
+                DERECHO A LA VIVIENDA
+              </span>
+              <span class="mono-tag text-xs bg-[#262626] text-green-400 px-2.5 py-1 border border-green-500/40 font-bold">
+                ● CONVOCATORIA ABIERTA
+              </span>
+            </div>
+
+            <div>
+              <h2 id="detail-title" class="poster-title text-4xl sm:text-5xl text-protest-cream tracking-wide">
+                Marcha por la Vivienda Digna
+              </h2>
+              <div class="mt-3 inline-flex items-center gap-2 bg-[#241717] border-2 border-protest-red px-3 py-1.5">
+                <i class="fa-solid fa-users text-protest-red"></i>
+                <span id="detail-count" class="mono-tag text-sm font-bold text-protest-cream">347 compañeros inscritos</span>
+              </div>
+            </div>
+
+            <!-- Organizadores -->
+            <div class="p-3.5 bg-[#1F1F1F] border-l-4 border-protest-cream">
+              <span class="mono-tag text-[10px] text-protest-muted uppercase font-bold block">
+                CONVOCAN DESDE LOS BARRIOS · ORGANIZADORES VERIFICADOS
+              </span>
+              <p class="text-sm font-bold text-protest-cream mt-0.5">
+                Coordinadora por la Vivienda Digna + Movimiento de Pobladores en Lucha
+              </p>
+            </div>
+
+            <!-- Motivo de la Convocatoria -->
+            <div class="space-y-2">
+              <h3 class="poster-title text-xl text-protest-red tracking-wide">
+                LA CASA ES UN DERECHO, NO UN NEGOCIO.
+              </h3>
+              <p class="text-sm text-protest-cream/90 leading-relaxed">
+                Nos juntamos para exigir arriendos justos, suelo para vivir y una solución real para las familias sin casa. Marchamos por una ciudad que no expulse a sus vecinos. Trae tu lienzo, tu voz y a tu gente: el derecho a un techo se defiende en comunidad.
+              </p>
+            </div>
+
+            <!-- Datos Clave: Cuándo y Dónde -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div class="p-3.5 bg-[#121212] border border-protest-border">
+                <span class="mono-tag text-[10px] text-protest-red font-bold block">CUÁNDO</span>
+                <p id="detail-date" class="font-bold text-sm text-protest-cream mt-1">Sábado 14 nov. 2026</p>
+                <p class="mono-tag text-xs text-protest-muted">10:00 h · Salida a las 10:30 h</p>
+              </div>
+              <div class="p-3.5 bg-[#121212] border border-protest-border">
+                <span class="mono-tag text-[10px] text-protest-red font-bold block">NOS ENCONTRAMOS EN</span>
+                <p id="detail-location" class="font-bold text-sm text-protest-cream mt-1">Plaza Baquedano</p>
+                <p class="mono-tag text-xs text-protest-muted">Santiago · Metro Baquedano</p>
+              </div>
+            </div>
+
+            <!-- DOS BOTONES PROMINENTES DE INSCRIPCIÓN (Pública o Anónima) -->
+            <div class="pt-3 space-y-3 border-t-2 border-protest-border">
+              <button onclick="registerToEvent('con_cuenta')" class="w-full brutal-btn-red py-3.5 px-4 text-sm flex items-center justify-center gap-2">
+                <i class="fa-solid fa-fist-raised"></i>
+                <span>Inscribirme con mi cuenta</span>
+              </button>
+
+              <button onclick="registerToEvent('anonimo')" class="w-full brutal-btn-dark py-3.5 px-4 text-sm flex items-center justify-center gap-2 border-protest-yellow/60 hover:border-protest-yellow">
+                <i class="fa-solid fa-shield-halved text-protest-yellow"></i>
+                <span>Inscribirme de forma anónima</span>
+              </button>
+
+              <p class="mono-tag text-[11px] text-protest-muted text-center leading-snug pt-1">
+                <i class="fa-solid fa-lock text-protest-red mr-1"></i>
+                Tu presencia suma. En modo anónimo no mostramos tu nombre ni tu perfil a otros participantes.
+              </p>
+            </div>
+
+            <!-- Acceso rápido al Chat Grupal de esta marcha -->
+            <div class="p-3.5 bg-[#1C1414] border border-protest-red/50 flex items-center justify-between gap-3">
+              <div>
+                <p class="text-xs font-bold text-protest-cream">¿Ya eres parte de esta convocatoria?</p>
+                <p class="mono-tag text-[11px] text-protest-muted">Coordina el punto de encuentro con los 347 inscritos.</p>
+              </div>
+              <button onclick="switchView('chatgrupal')" class="brutal-btn-dark px-3 py-1.5 text-xs mono-tag shrink-0">
+                Ir al Chat →
+              </button>
+            </div>
+
+            <div class="pt-2 border-t border-white/10">
+              <p class="poster-title text-base text-protest-muted tracking-wide">
+                "NO HAY QUE TENER CASA PROPIA PARA EXIGIRLA. HAY QUE TENER GANAS DE CAMBIAR LAS COSAS."
+              </p>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Mapa del Trazado (Réplica exacta de tu imagen subida) -->
+          <div class="lg:col-span-6 space-y-4">
+            <div class="brutal-card-static p-4 bg-[#141414]">
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <span class="mono-tag text-[10px] text-protest-red font-bold block">LA CALLE QUE VAMOS A MOVER</span>
+                  <h3 class="poster-title text-2xl text-protest-cream">SANTIAGO · BAQUEDANO → LOS HÉROES</h3>
+                </div>
+                <span class="mono-tag text-xs bg-protest-red text-white px-2.5 py-1 font-bold">
+                  3 KM A PIE
+                </span>
+              </div>
+
+              <!-- Mapa de Ruta Trazada (Igual a la captura de 'Vista Web - Informacion de la marcha.pdf') -->
+              <div class="relative w-full h-[380px] street-map-bg border-2 border-protest-border overflow-hidden select-none">
+                <svg viewBox="0 0 600 400" class="w-full h-full">
+                  <!-- Cuadrícula de manzanas urbanas -->
+                  <g fill="#1B1B1B" stroke="#262626" stroke-width="1">
+                    <rect x="20" y="20" width="70" height="50" />
+                    <rect x="105" y="20" width="80" height="50" />
+                    <rect x="200" y="20" width="90" height="45" />
+                    <rect x="305" y="20" width="85" height="45" />
+                    <rect x="405" y="20" width="75" height="45" />
+                    <rect x="20" y="140" width="60" height="75" />
+                    <rect x="95" y="140" width="85" height="75" />
+                    <rect x="195" y="145" width="95" height="65" />
+                    <rect x="305" y="145" width="90" height="55" />
+                    <rect x="130" y="280" width="100" height="85" />
+                    <rect x="245" y="260" width="110" height="100" />
+                    <rect x="370" y="240" width="115" height="120" />
+                  </g>
+
+                  <!-- Río Mapocho -->
+                  <path d="M 0 120 Q 200 100, 400 90 T 600 75" fill="none" stroke="#2D373C" stroke-width="18" />
+                  <text x="40" y="108" fill="#808E95" font-family="Space Mono" font-size="10" font-weight="bold" transform="rotate(-5 40,108)">RÍO MAPOCHO</text>
+
+                  <!-- Parque Forestal y Cerro Santa Lucía -->
+                  <polygon points="190,112 365,100 365,130 190,138" fill="#232D23" />
+                  <text x="245" y="125" fill="#7D8C7D" font-family="Space Mono" font-size="9" font-weight="bold">PARQUE FORESTAL</text>
+                  <ellipse cx="322" cy="168" rx="14" ry="26" fill="#232D23" />
+                  <text x="345" y="160" fill="#888" font-family="Space Mono" font-size="9" font-weight="bold">CERRO</text>
+                  <text x="345" y="172" fill="#888" font-family="Space Mono" font-size="9" font-weight="bold">SANTA LUCÍA</text>
+
+                  <!-- Avenida Vicuña Mackenna -->
+                  <line x1="485" y1="0" x2="515" y2="400" stroke="#3A3A3A" stroke-width="12" />
+                  <text x="520" y="245" fill="#888" font-family="Space Mono" font-size="9" transform="rotate(86 520,245)">VICUÑA MACKENNA</text>
+
+                  <!-- ALAMEDA / AV. LIBERTADOR B. O'HIGGINS -->
+                  <line x1="0" y1="285" x2="600" y2="145" stroke="#454545" stroke-width="18" />
+
+                  <!-- TRAZADO ROJO DE LA MARCHA (De Punto 1 a Punto 2) -->
+                  <line x1="495" y1="170" x2="60" y2="272" stroke="#D92B2B" stroke-width="7" />
+                  
+                  <!-- Flechas de dirección sobre la Alameda -->
+                  <text x="380" y="203" fill="#FFFFFF" font-family="Space Mono" font-size="16" font-weight="bold" transform="rotate(-13 380,203)">&lt;</text>
+                  <text x="255" y="232" fill="#FFFFFF" font-family="Space Mono" font-size="16" font-weight="bold" transform="rotate(-13 255,232)">&lt;</text>
+                  <text x="125" y="262" fill="#FFFFFF" font-family="Space Mono" font-size="16" font-weight="bold" transform="rotate(-13 125,262)">&lt;</text>
+
+                  <!-- Nombres de Hitos Urbanos -->
+                  <text x="32" y="55" fill="#888" font-family="Space Mono" font-size="9" font-weight="bold">BELLAVISTA</text>
+                  <text x="190" y="172" fill="#999" font-family="Space Mono" font-size="9" font-weight="bold">BELLAS ARTES</text>
+                  <text x="105" y="210" fill="#AAA" font-family="Space Mono" font-size="10" font-weight="bold">LA MONEDA</text>
+                  <text x="178" y="272" fill="#999" font-family="Space Mono" font-size="9" font-weight="bold">U. DE CHILE</text>
+                  <text x="300" y="325" fill="#888" font-family="Space Mono" font-size="9" font-weight="bold">SANTIAGO CENTRO</text>
+                  <text x="265" y="262" fill="#CCCCCC" font-family="Space Mono" font-size="10" font-weight="bold" transform="rotate(-13 265,262)">
+                    ALAMEDA / AV. LIBERTADOR B. O'HIGGINS
+                  </text>
+
+                  <!-- Nodo (1) Plaza Baquedano -->
+                  <circle cx="495" cy="170" r="12" fill="#D92B2B" stroke="#FFFFFF" stroke-width="2.5" />
+                  <text x="491" y="174" fill="#FFFFFF" font-family="Space Mono" font-size="11" font-weight="bold">1</text>
+
+                  <!-- Nodo (2) Metro Los Héroes -->
+                  <circle cx="60" cy="272" r="12" fill="#D92B2B" stroke="#FFFFFF" stroke-width="2.5" />
+                  <text x="56" y="276" fill="#FFFFFF" font-family="Space Mono" font-size="11" font-weight="bold">2</text>
+                </svg>
+
+                <!-- Caja Flotante 01: Plaza Baquedano -->
+                <div class="absolute top-12 right-12 bg-[#141414]/95 border-2 border-protest-red p-3 shadow-lg max-w-[210px]">
+                  <span class="mono-tag text-[10px] text-protest-red font-bold block">01 / NOS JUNTAMOS · 10:00</span>
+                  <p class="font-bold text-sm text-white mt-0.5">Plaza Baquedano</p>
+                  <p class="mono-tag text-[11px] text-protest-muted">Metro Baquedano</p>
+                </div>
+
+                <!-- Caja Flotante 02: Metro Los Héroes -->
+                <div class="absolute bottom-12 left-5 bg-[#141414]/95 border-2 border-protest-red p-3 shadow-lg max-w-[210px]">
+                  <span class="mono-tag text-[10px] text-protest-red font-bold block">02 / CIERRE · 12:00</span>
+                  <p class="font-bold text-sm text-white mt-0.5">Metro Los Héroes</p>
+                </div>
+
+                <!-- Leyenda inferior del mapa -->
+                <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[10px] mono-tag text-protest-muted bg-black/80 px-3 py-1 border border-white/10">
+                  <span class="flex items-center gap-2">
+                    <span class="w-4 h-1 bg-protest-red inline-block"></span> RECORRIDO A PIE
+                  </span>
+                  <span>MAPA ORIENTATIVO · NORTE ↑</span>
+                </div>
+              </div>
+
+              <!-- Tarjetas de Etapas del Recorrido debajo del mapa -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                <div class="p-3 bg-[#1A1A1A] border-l-4 border-protest-red">
+                  <span class="mono-tag text-xs text-protest-red font-bold">01 · INICIO</span>
+                  <p class="font-bold text-sm text-protest-cream mt-0.5">Nos reunimos en Baquedano</p>
+                  <p class="text-xs text-protest-muted mt-0.5">10:00 h · Salimos por Alameda a las 10:30 h.</p>
+                </div>
+                <div class="p-3 bg-[#1A1A1A] border-l-4 border-protest-cream">
+                  <span class="mono-tag text-xs text-protest-cream font-bold">02 · CIERRE</span>
+                  <p class="font-bold text-sm text-protest-cream mt-0.5">Llegamos a Los Héroes</p>
+                  <p class="text-xs text-protest-muted mt-0.5">12:00 h · Cierre colectivo y lectura del petitorio.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ========================================================
+           VISTA 4: CHAT GRUPAL (Vista Web - Chat grupal.pdf)
+           ======================================================== -->
+      <section id="view-chatgrupal" class="view-section hidden">
+        <div class="brutal-card-static bg-[#141414] flex flex-col h-[calc(100vh-130px)] min-h-[580px]">
+          
+          <!-- Cabecera del Chat Grupal -->
+          <div class="p-4 sm:p-5 bg-[#191919] border-b-2 border-protest-border flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="mono-tag text-[10px] bg-protest-red text-white px-2 py-0.5 font-bold">
+                  CHAT GRUPAL · LA CALLE SE ORGANIZA
+                </span>
+                <span id="chat-date-badge" class="mono-tag text-[10px] bg-[#262626] text-protest-cream px-2 py-0.5 border border-white/15">
+                  SÁB 14 NOV · 10:00
+                </span>
+              </div>
+              <h2 id="chat-march-title" class="poster-title text-2xl sm:text-3xl text-protest-cream mt-1">
+                Marcha por la Vivienda Digna
+              </h2>
+              <p class="mono-tag text-xs text-green-400 font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                <span id="chat-active-count">347 compañeros activos</span>
+              </p>
+            </div>
+
+            <!-- Botones de Acción de Cabecera (Incluye ir a Subgrupos Privados) -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button onclick="switchView('detalle')" class="brutal-btn-dark px-3 py-2 text-xs mono-tag">
+                VER CONVOCATORIA
+              </button>
+              <button onclick="switchView('chatprivado')" class="brutal-btn-red px-4 py-2 text-xs mono-tag flex items-center gap-2">
+                <i class="fa-solid fa-lock"></i>
+                <span>Ver Subgrupos Privados</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Mensaje Fijado por la Organización -->
+          <div class="bg-[#231515] border-b-2 border-protest-red px-5 py-2.5 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 text-xs">
+              <span class="mono-tag font-bold text-protest-red shrink-0">
+                <i class="fa-solid fa-thumbtack mr-1"></i> FIJADO POR LA ORGANIZACIÓN:
+              </span>
+              <span class="text-protest-cream font-medium">
+                10:00 h Plaza Baquedano. Salimos 10:30 por Alameda hasta Los Héroes. ¡Nadie se queda atrás!
+              </span>
+            </div>
+            <span class="mono-tag text-[10px] text-protest-muted hidden md:inline">HOY SÁBADO 14 DE NOVIEMBRE</span>
+          </div>
+
+          <!-- Cuerpo de Mensajes del Chat Grupal -->
+          <div id="group-chat-messages" class="flex-1 overflow-y-auto p-5 space-y-4">
+            
+            <!-- Mensaje 1: Valentina Rojas -->
+            <div class="flex items-start gap-3 max-w-2xl">
+              <div class="w-9 h-9 bg-protest-red text-white font-bold mono-tag text-xs flex items-center justify-center border border-white/40 shrink-0">
+                VR
+              </div>
+              <div class="bg-[#1E1E1E] border border-protest-border p-3.5 flex-1">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-xs text-protest-cream">Valentina Rojas</span>
+                    <span class="mono-tag text-[10px] bg-protest-red text-white px-1.5 py-0.5 font-bold">ORGANIZACIÓN</span>
+                  </div>
+                  <span class="mono-tag text-[10px] text-protest-muted">09:12</span>
+                </div>
+                <p class="text-sm text-protest-cream/90">
+                  ¡Buen día, compas! Nos juntamos a las 10 en Plaza Baquedano, por el lado de la Alameda.
+                </p>
+              </div>
+            </div>
+
+            <!-- Mensaje 2: Anónimo #42 -->
+            <div class="flex items-start gap-3 max-w-2xl">
+              <div class="w-9 h-9 bg-[#252525] text-protest-yellow font-bold mono-tag text-xs flex items-center justify-center border border-protest-yellow/50 shrink-0">
+                <i class="fa-solid fa-user-secret"></i>
+              </div>
+              <div class="bg-[#1B1B1B] border border-protest-yellow/30 p-3.5 flex-1">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-xs text-protest-yellow">Participante Anónimo #42</span>
+                    <span class="mono-tag text-[10px] bg-black/50 text-protest-muted px-1.5 py-0.5 border border-white/10">IDENTIDAD PROTEGIDA</span>
+                  </div>
+                  <span class="mono-tag text-[10px] text-protest-muted">09:14</span>
+                </div>
+                <p class="text-sm text-protest-cream/90">
+                  ¡Buena! ¿Hay algo para ubicarlos? Voy por primera vez y no cacho bien el punto.
+                </p>
+              </div>
+            </div>
+
+            <!-- Mensaje 3: Nico Soto (Con Foto del Punto de Encuentro) -->
+            <div class="flex items-start gap-3 max-w-2xl">
+              <div class="w-9 h-9 bg-[#2C2C2C] text-protest-cream font-bold mono-tag text-xs flex items-center justify-center border border-white/20 shrink-0">
+                NS
+              </div>
+              <div class="bg-[#1E1E1E] border border-protest-border p-3.5 flex-1">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="font-bold text-xs text-protest-cream">Nico Soto</span>
+                  <span class="mono-tag text-[10px] text-protest-muted">09:16</span>
+                </div>
+                <p class="text-sm text-protest-cream/90 mb-2.5">
+                  Acá mismo. Busquen el lienzo rojo, ya estamos llegando.
+                </p>
+                <!-- Tarjeta visual adjunta del punto de encuentro -->
+                <div class="bg-[#121212] border-2 border-protest-red p-3 max-w-md">
+                  <div class="flex items-center justify-between text-[10px] mono-tag text-protest-red font-bold mb-1">
+                    <span><i class="fa-solid fa-camera mr-1"></i> FOTO DEL PUNTO DE ENCUENTRO</span>
+                    <span>EN VIVO</span>
+                  </div>
+                  <div class="h-28 bg-gradient-to-r from-[#2A1212] via-[#1B1B1B] to-[#241515] border border-white/10 flex flex-col items-center justify-center p-3 text-center">
+                    <span class="bg-protest-red text-white poster-title text-lg px-4 py-1 border border-white shadow">
+                      "LA CASA ES UN DERECHO — VIVIENDA DIGNA AHORA"
+                    </span>
+                    <span class="mono-tag text-[10px] text-protest-cream mt-2">
+                      📍 PLAZA BAQUEDANO · LADO ALAMEDA
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mensaje 4: Diego Muñoz -->
+            <div class="flex items-start gap-3 max-w-2xl">
+              <div class="w-9 h-9 bg-[#2C2C2C] text-protest-cream font-bold mono-tag text-xs flex items-center justify-center border border-white/20 shrink-0">
+                DM
+              </div>
+              <div class="bg-[#1E1E1E] border border-protest-border p-3.5 flex-1">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="font-bold text-xs text-protest-cream">Diego Muñoz</span>
+                  <span class="mono-tag text-[10px] text-protest-muted">09:18</span>
+                </div>
+                <p class="text-sm text-protest-cream/90">
+                  ¡Eso! A las 10:30 salimos por Alameda hasta Los Héroes. Traigan agüita, va a pegar el sol.
+                </p>
+              </div>
+            </div>
+
+            <!-- Mensaje 5: Camila Morales (Tú) -->
+            <div class="flex items-start justify-end gap-3">
+              <div class="bg-[#291616] border-2 border-protest-red p-3.5 max-w-xl">
+                <div class="flex items-center justify-between gap-4 mb-1">
+                  <span class="font-bold text-xs text-protest-red">Camila Morales - Tú</span>
+                  <span class="mono-tag text-[10px] text-protest-muted">09:20</span>
+                </div>
+                <p class="text-sm text-protest-cream">
+                  ¡Bacán! Voy saliendo con mis vecinas. Nos vemos al lado del lienzo rojo, compas.
+                </p>
+              </div>
+              <div class="w-9 h-9 bg-protest-red text-white font-bold mono-tag text-xs flex items-center justify-center border border-white shrink-0">
+                CM
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Barra Inferior de Escritura del Chat Grupal -->
+          <div class="p-4 bg-[#191919] border-t-2 border-protest-border space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div class="flex items-center gap-2">
+                <span id="chat-identity-indicator" class="mono-tag text-[11px] text-protest-cream font-bold">
+                  <i class="fa-solid fa-user-check text-green-400 mr-1"></i> ESCRIBES COMO CAMILA MORALES
+                </span>
+                <button onclick="toggleChatIdentity()" class="mono-tag text-[11px] text-protest-yellow hover:underline font-bold">
+                  · CAMBIAR A ANÓNIMO
+                </button>
+              </div>
+              <span class="mono-tag text-[10px] text-protest-muted">
+                Nos organizamos con respeto. Nos cuidamos entre todos.
+              </span>
+            </div>
+
+            <form onsubmit="sendGroupMessage(event)" class="flex items-center gap-2.5">
+              <button type="button" onclick="attachSamplePhoto('group')" title="Adjuntar foto o multimedia" class="brutal-btn-dark px-3.5 py-2.5 text-xs">
+                <i class="fa-solid fa-paperclip"></i>
+              </button>
+              <input 
+                type="text" 
+                id="group-chat-input"
+                placeholder="Escribe aquí, compa. Tu voz también mueve la calle..." 
+                class="flex-1 bg-[#111111] border-2 border-protest-border focus:border-protest-red px-4 py-2.5 text-sm text-protest-cream outline-none"
+              />
+              <button type="submit" class="brutal-btn-red px-6 py-2.5 text-xs mono-tag">
+                Enviar
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ========================================================
+           VISTA 5: CHAT PRIVADO DE SUBGRUPO
+           (Vista Web - Chat grupal privado.pdf)
+           ======================================================== -->
+      <section id="view-chatprivado" class="view-section hidden">
+        <div class="brutal-card-static bg-[#141414] flex flex-col h-[calc(100vh-130px)] min-h-[580px] border-protest-red">
+          
+          <!-- Cabecera de Subgrupo Privado -->
+          <div class="p-4 sm:p-5 bg-[#1B1212] border-b-2 border-protest-red flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="mono-tag text-[10px] bg-protest-red text-white px-2 py-0.5 font-bold">
+                  <i class="fa-solid fa-lock mr-1"></i> MARCHA POR LA VIVIENDA DIGNA · SUBGRUPO
+                </span>
+                <span class="mono-tag text-[10px] bg-black/60 text-protest-yellow px-2 py-0.5 border border-protest-yellow/40 font-bold">
+                  SOLO POR INVITACIÓN · NO ES EL CHAT GENERAL
+                </span>
+              </div>
+              <h2 class="poster-title text-2xl sm:text-3xl text-protest-cream mt-1 flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-protest-red text-xl"></i>
+                <span>Subgrupo Privado: Coordinación Sector Norte</span>
+              </h2>
+              <p class="mono-tag text-xs text-protest-cream/80 font-bold">
+                18 compañeros verificados · Recoleta / Independencia / Patronato
+              </p>
+            </div>
+
+            <!-- Botones de Cabecera -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button onclick="switchView('chatgrupal')" class="brutal-btn-dark px-3.5 py-2 text-xs mono-tag">
+                ← CHAT GENERAL (347 ACTIVOS)
+              </button>
+              <button onclick="openInviteModal()" class="brutal-btn-red px-4 py-2 text-xs mono-tag">
+                Invitar / Gestionar ↗
+              </button>
+            </div>
+          </div>
+
+          <!-- Acuerdo Fijado del Sector Norte -->
+          <div class="bg-[#1F1A14] border-b border-protest-yellow/40 px-5 py-2.5 flex items-center justify-between gap-3">
+            <div class="text-xs">
+              <span class="mono-tag font-bold text-protest-yellow mr-2">
+                <i class="fa-solid fa-thumbtack mr-1"></i> ACUERDO DEL SECTOR NORTE · FIJADO POR VALENTINA:
+              </span>
+              <span class="text-protest-cream">
+                10:00 h Plaza Baquedano, lado Alameda. Busquen el lienzo rojo. Salimos juntos a las 10:30.
+              </span>
+            </div>
+            <span class="mono-tag text-[10px] text-protest-muted shrink-0 hidden md:inline">SÁB 14 NOV</span>
+          </div>
+
+          <!-- Mensajes del Subgrupo Privado -->
+          <div id="private-chat-messages" class="flex-1 overflow-y-auto p-5 space-y-4">
+            
+            <!-- Mensaje 1: Valentina Rojas -->
+            <div class="flex items-start gap-3 max-w-2xl">
+              <div class="w-9 h-9 bg-protest-red text-white font-bold mono-tag text-xs flex items-center justify-center border border-white/40 shrink-0">
+                VR
+              </div>
+              <div class="bg-[#1E1E1E] border border-protest-border p-3.5 flex-1">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-xs text-protest-cream">Valentina Rojas</span>
+                    <span class="mono-tag text-[10px] bg-protest-red text-white px-1.5 py-0.5 font-bold">COORDINACIÓN</span>
+                  </div>
+                  <span class="mono-tag text-[10px] text-protest-muted">09:32</span>
+                </div>
+                <p class="text-sm text-protest-cream/90">
+                  ¡Buen día, compas del norte! Dejemos acá las ubicaciones para llegar junt@s a la marcha por la vivienda digna. Nos vemos a las 10 en Baquedano, junto al lienzo rojo. ¡Nadie se queda atrás!
+                </p>
+              </div>
+            </div>
+
+            <!-- Mensaje 2: Diego Muñoz (Con Mini Mapa de Ubicación en Vivo) -->
+            <div class="flex items-start gap-3 max-w-2xl">
+              <div class="w-9 h-9 bg-[#2C2C2C] text-protest-cream font-bold mono-tag text-xs flex items-center justify-center border border-white/20 shrink-0">
+                DM
+              </div>
+              <div class="bg-[#1E1E1E] border border-protest-border p-3.5 flex-1">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="font-bold text-xs text-protest-cream">Diego Muñoz</span>
+                  <span class="mono-tag text-[10px] text-protest-muted">09:34</span>
+                </div>
+                <p class="text-sm text-protest-cream/90 mb-2.5">
+                  Ya llegué, cabres. Les comparto dónde estoy. Al ladito del metro.
+                </p>
+
+                <!-- Mini Mapa de Ubicación en Vivo embebido en el chat -->
+                <div class="bg-[#121212] border-2 border-protest-red p-3 max-w-md">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="mono-tag text-[10px] bg-protest-red text-white px-2 py-0.5 font-bold">
+                      ● EN VIVO · DIEGO AQUÍ ESTOY
+                    </span>
+                    <span class="mono-tag text-[10px] text-protest-muted">
+                      Actualizado hace 10s · visible por 30 min
+                    </span>
+                  </div>
+                  <div class="relative h-28 street-map-bg border border-white/15 overflow-hidden flex items-center justify-center">
+                    <svg viewBox="0 0 300 110" class="w-full h-full">
+                      <path d="M 0 30 Q 150 25, 300 20" stroke="#263238" stroke-width="10" fill="none" />
+                      <line x1="0" y1="80" x2="300" y2="55" stroke="#3E3E3E" stroke-width="12" />
+                      <text x="15" y="22" fill="#607D8B" font-family="Space Mono" font-size="8">RÍO MAPOCHO</text>
+                      <text x="20" y="72" fill="#AAA" font-family="Space Mono" font-size="8">ALAMEDA</text>
+                      <text x="210" y="45" fill="#888" font-family="Space Mono" font-size="8">PROVIDENCIA</text>
+                      <circle cx="175" cy="65" r="8" fill="#D92B2B" stroke="#FFF" stroke-width="2" />
+                    </svg>
+                    <div class="absolute bottom-1.5 left-2 bg-black/80 px-2 py-0.5 text-[10px] mono-tag text-protest-cream border border-white/15">
+                      📍 Plaza Baquedano · lado Alameda
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mensaje 3: Nico Soto -->
+            <div class="flex items-start gap-3 max-w-2xl">
+              <div class="w-9 h-9 bg-[#2C2C2C] text-protest-cream font-bold mono-tag text-xs flex items-center justify-center border border-white/20 shrink-0">
+                NS
+              </div>
+              <div class="bg-[#1E1E1E] border border-protest-border p-3.5 flex-1">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="font-bold text-xs text-protest-cream">Nico Soto</span>
+                  <span class="mono-tag text-[10px] text-protest-muted">09:36</span>
+                </div>
+                <p class="text-sm text-protest-cream/90">
+                  Bacán, Diego. Vamos 4 desde Patronato, cruzando por Pío Nono. En 10 min estamos ahí con el lienzo. ¿Nos esperan?
+                </p>
+              </div>
+            </div>
+
+            <!-- Mensaje 4: Camila Morales - Tú (Con ubicación compartida) -->
+            <div class="flex items-start justify-end gap-3">
+              <div class="bg-[#291616] border-2 border-protest-red p-3.5 max-w-xl">
+                <div class="flex items-center justify-between gap-4 mb-1">
+                  <span class="font-bold text-xs text-protest-red">Camila Morales - Tú</span>
+                  <span class="mono-tag text-[10px] text-protest-muted">09:38</span>
+                </div>
+                <p class="text-sm text-protest-cream mb-2.5">
+                  ¡Obvio, compa! Voy con mis vecinas desde Recoleta. Llegamos en 15 min. Dejo mi ubicación también, para no perdernos.
+                </p>
+                <div class="bg-black/60 border border-protest-red px-3 py-2 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-2 text-xs">
+                    <i class="fa-solid fa-location-crosshairs text-protest-red animate-spin"></i>
+                    <span class="mono-tag text-[11px] text-protest-cream font-bold">
+                      Recoleta / Bellavista — En camino a Plaza Baquedano
+                    </span>
+                  </div>
+                  <span class="mono-tag text-[10px] bg-protest-red text-white px-2 py-0.5 font-bold shrink-0">
+                    EN VIVO 15 MIN
+                  </span>
+                </div>
+              </div>
+              <div class="w-9 h-9 bg-protest-red text-white font-bold mono-tag text-xs flex items-center justify-center border border-white shrink-0">
+                CM
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Aviso de Canal Encriptado + Barra de Escritura -->
+          <div class="p-4 bg-[#191919] border-t-2 border-protest-border space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="mono-tag text-[11px] text-protest-yellow flex items-center gap-1.5 font-bold">
+                <i class="fa-solid fa-lock"></i>
+                Canal privado encriptado para el subgrupo · SOLO LO VE TU SUBGRUPO
+              </span>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="shareLiveLocationInSubgroup()" class="brutal-btn-dark px-2.5 py-1 text-[10px] mono-tag text-protest-red border-protest-red">
+                  <i class="fa-solid fa-location-dot mr-1"></i> COMPARTIR UBICACIÓN EN VIVO
+                </button>
+                <button type="button" onclick="attachSamplePhoto('private')" class="brutal-btn-dark px-2.5 py-1 text-[10px] mono-tag">
+                  <i class="fa-solid fa-camera mr-1"></i> FOTOS / VIDEOS
+                </button>
+              </div>
+            </div>
+
+            <form onsubmit="sendPrivateMessage(event)" class="flex items-center gap-2.5">
+              <input 
+                type="text" 
+                id="private-chat-input"
+                placeholder="Escribe aquí, compa. Este espacio es de nuestro subgrupo..." 
+                class="flex-1 bg-[#111111] border-2 border-protest-border focus:border-protest-red px-4 py-2.5 text-sm text-protest-cream outline-none"
+              />
+              <button type="submit" class="brutal-btn-red px-6 py-2.5 text-xs mono-tag">
+                Enviar
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==========================================
+       MODAL DE AUTORIZACIONES / PERMISOS ESTATALES
+       ========================================== -->
+  <div id="auth-modal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+    <div class="brutal-card-static bg-[#181818] border-2 border-protest-red max-w-xl w-full p-6 space-y-4">
+      <div class="flex items-start justify-between border-b border-protest-border pb-3">
+        <div>
+          <span class="mono-tag text-[10px] text-protest-red font-bold">MÓDULO DE INFORME DE AUTORIZACIÓN</span>
+          <h3 class="poster-title text-2xl text-protest-cream">SOLICITUDES A LA DELEGACIÓN PRESIDENCIAL RM</h3>
+        </div>
+        <button onclick="closeAuthModal()" class="text-protest-muted hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div class="p-3 bg-[#121212] border-l-4 border-green-500 flex items-center justify-between">
+          <div>
+            <p class="font-bold text-sm text-protest-cream">Marcha por la Vivienda Digna (14 Nov)</p>
+            <p class="mono-tag text-[11px] text-protest-muted">Trazado: Plaza Baquedano → Metro Los Héroes · 347 inscritos</p>
+          </div>
+          <span class="mono-tag bg-green-900/40 text-green-400 border border-green-500/40 px-2 py-1 font-bold">
+            INFORME ENVIADO ✓
+          </span>
+        </div>
+        <div class="p-3 bg-[#121212] border-l-4 border-protest-yellow flex items-center justify-between">
+          <div>
+            <p class="font-bold text-sm text-protest-cream">Por una Educación Pública y Digna (07 Nov)</p>
+            <p class="mono-tag text-[11px] text-protest-muted">Trazado: Plaza Baquedano · Providencia</p>
+          </div>
+          <span class="mono-tag bg-yellow-900/40 text-protest-yellow border border-protest-yellow/40 px-2 py-1 font-bold">
+            EN REVISIÓN
+          </span>
+        </div>
+      </div>
+      <div class="pt-2 flex justify-end gap-2">
+        <button onclick="showToast('Documento PDF para la Intendencia / Delegación generado con éxito'); closeAuthModal();" class="brutal-btn-red px-4 py-2 text-xs mono-tag">
+          Descargar Informe Oficial PDF
+        </button>
+        <button onclick="closeAuthModal()" class="brutal-btn-dark px-4 py-2 text-xs mono-tag">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL DE INVITAR A SUBGRUPO PRIVADO
+       ========================================== -->
+  <div id="invite-modal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+    <div class="brutal-card-static bg-[#181818] border-2 border-protest-red max-w-md w-full p-6 space-y-4">
+      <div class="flex items-start justify-between border-b border-protest-border pb-3">
+        <div>
+          <span class="mono-tag text-[10px] text-protest-yellow font-bold">🔒 CANAL ENCRIPTADO POR INVITACIÓN</span>
+          <h3 class="poster-title text-2xl text-protest-cream">INVITAR A SECTOR NORTE</h3>
+        </div>
+        <button onclick="closeInviteModal()" class="text-protest-muted hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <p class="text-xs text-protest-muted">
+        Comparte este código único solo con compañeros de confianza de tu barrio o asamblea territorial:
+      </p>
+      <div class="p-3 bg-black border border-protest-red mono-tag text-center text-sm font-bold text-protest-cream tracking-widest">
+        NORTE-BAQUEDANO-849
+      </div>
+      <div class="flex justify-end gap-2">
+        <button onclick="showToast('Código de invitación copiado'); closeInviteModal();" class="brutal-btn-red px-4 py-2 text-xs mono-tag">
+          Copiar Código Seguro
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       NOTIFICACIÓN TOAST (SIN USAR ALERT)
+       ========================================== -->
+  <div id="toast-box" class="fixed top-5 right-5 z-50 hidden bg-[#181818] border-2 border-protest-red text-protest-cream px-4 py-3 shadow-[4px_4px_0px_#000] max-w-sm">
+    <div class="flex items-center gap-3">
+      <i class="fa-solid fa-bullhorn text-protest-red"></i>
+      <p id="toast-text" class="mono-tag text-xs font-bold"></p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       BARRA FLOTANTE DE NAVEGACIÓN RÁPIDA (PARA TU VIDEO)
+       Se puede ocultar con 1 clic en la "X"
+       ========================================== -->
+  <div id="video-helper-bar" class="fixed bottom-3 right-3 z-40 bg-black/95 border-2 border-protest-red p-2 shadow-lg flex items-center gap-1.5 text-[11px] mono-tag">
+    <span class="text-protest-red font-bold px-1.5 hidden sm:inline">VISTAS FIGMA:</span>
+    <button onclick="switchView('inicio')" id="quick-inicio" class="px-2 py-1 bg-protest-red text-white font-bold">1. Inicio</button>
+    <button onclick="switchView('mismarchas')" id="quick-mismarchas" class="px-2 py-1 bg-[#222] text-protest-cream hover:bg-protest-red">2. Mis Marchas</button>
+    <button onclick="switchView('detalle')" id="quick-detalle" class="px-2 py-1 bg-[#222] text-protest-cream hover:bg-protest-red">3. Info Marcha</button>
+    <button onclick="switchView('chatgrupal')" id="quick-chatgrupal" class="px-2 py-1 bg-[#222] text-protest-cream hover:bg-protest-red">4. Chat Grupal</button>
+    <button onclick="switchView('chatprivado')" id="quick-chatprivado" class="px-2 py-1 bg-[#222] text-protest-cream hover:bg-protest-red">5. Chat Privado</button>
+    <button onclick="document.getElementById('video-helper-bar').style.display='none'" title="Ocultar barra para grabar" class="px-1.5 py-1 text-protest-muted hover:text-white">✕</button>
+  </div>
+
+  <!-- ==========================================
+       LÓGICA JAVASCRIPT DE NAVEGACIÓN E INTERACCIÓN
+       ========================================== -->
+  <script>
+    let currentChatIdentity = 'cuenta'; // 'cuenta' o 'anonimo'
+    let currentEnrolledCount = 347;
+
+    const breadcrumbs = {
+      inicio: 'MI COMUNIDAD / <span class="text-protest-cream">INICIO</span>',
+      mismarchas: 'TU ESPACIO / <span class="text-protest-cream">MIS MARCHAS</span>',
+      detalle: 'MI COMUNIDAD / CONVOCATORIAS / <span class="text-protest-cream">DETALLE DE LA MARCHA</span>',
+      chatgrupal: 'MI COMUNIDAD / CHATS / <span class="text-protest-cream">CHAT GRUPAL</span>',
+      chatprivado: 'MI COMUNIDAD / CHATS / <span class="text-protest-red">SUBGRUPO PRIVADO</span>'
+    };
+
+    // Cambia entre las 5 vistas principales de los PDFs
+    function switchView(viewKey) {
+      const views = ['inicio', 'mismarchas', 'detalle', 'chatgrupal', 'chatprivado'];
+      views.forEach(v => {
+        const section = document.getElementById('view-' + v);
+        if (section) section.classList.add('hidden');
+
+        const quickBtn = document.getElementById('quick-' + v);
+        if (quickBtn) {
+          quickBtn.className = 'px-2 py-1 bg-[#222] text-protest-cream hover:bg-protest-red';
+        }
+      });
+
+      // Mostrar vista seleccionada
+      const target = document.getElementById('view-' + viewKey);
+      if (target) target.classList.remove('hidden');
+
+      // Actualizar botón rápido inferior
+      const activeQuick = document.getElementById('quick-' + viewKey);
+      if (activeQuick) {
+        activeQuick.className = 'px-2 py-1 bg-protest-red text-white font-bold';
+      }
+
+      // Actualizar menú lateral activo
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+      const navMap = {
+        inicio: 'nav-inicio',
+        mismarchas: 'nav-mismarchas',
+        detalle: 'nav-detalle',
+        chatgrupal: 'nav-chatgrupal',
+        chatprivado: 'nav-chatgrupal'
+      };
+      const activeNav = document.getElementById(navMap[viewKey]);
+      if (activeNav) activeNav.classList.add('active');
+
+      // Actualizar Breadcrumb superior
+      document.getElementById('top-breadcrumb').innerHTML = breadcrumbs[viewKey] || breadcrumbs.inicio;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Abre la vista 3 (Detalle de la Marcha) con datos dinámicos
+    function openEventDetail(title, category, location, dateStr, count) {
+      document.getElementById('detail-title').textContent = title;
+      document.getElementById('detail-category').textContent = category;
+      document.getElementById('detail-location').textContent = location;
+      document.getElementById('detail-date').textContent = dateStr;
+      currentEnrolledCount = count;
+      document.getElementById('detail-count').textContent = count + ' compañeros inscritos';
+      switchView('detalle');
+    }
+
+    // Inscribirse en la marcha (Con cuenta o Anónimo)
+    function registerToEvent(mode) {
+      currentEnrolledCount++;
+      document.getElementById('detail-count').textContent = currentEnrolledCount + ' compañeros inscritos';
+      
+      const badgeMisMarchas = document.getElementById('badge-mismarchas');
+      badgeMisMarchas.textContent = parseInt(badgeMisMarchas.textContent) + 1;
+
+      if (mode === 'anonimo') {
+        currentChatIdentity = 'anonimo';
+        updateIdentityUI();
+        showToast('¡Inscrito en modo ANÓNIMO! Tu identidad está protegida. Entrando al Chat Grupal...');
+      } else {
+        currentChatIdentity = 'cuenta';
+        updateIdentityUI();
+        showToast('¡Te sumaste con tu cuenta (Camila Morales)! Entrando al Chat Grupal...');
+      }
+
+      setTimeout(() => {
+        switchView('chatgrupal');
+      }, 1100);
+    }
+
+    // Abre el Chat Grupal desde cualquier tarjeta de "Mis Marchas"
+    function openChatForMarch(title, activeUsers, dateBadge) {
+      document.getElementById('chat-march-title').textContent = title;
+      document.getElementById('chat-active-count').textContent = activeUsers + ' compañeros activos';
+      document.getElementById('chat-date-badge').textContent = dateBadge;
+      switchView('chatgrupal');
+    }
+
+    // Filtro de pestañas en "Mis Marchas" (Próximas vs Finalizadas)
+    function filterMyMarches(tab) {
+      const gridProximas = document.getElementById('mismarchas-proximas-grid');
+      const gridFinalizadas = document.getElementById('mismarchas-finalizadas-grid');
+      const btnProximas = document.getElementById('tab-proximas');
+      const btnFinalizadas = document.getElementById('tab-finalizadas');
+
+      if (tab === 'proximas') {
+        gridProximas.classList.remove('hidden');
+        gridFinalizadas.classList.add('hidden');
+        gridFinalizadas.classList.remove('grid');
+        btnProximas.className = 'brutal-btn-red px-4 py-2 text-xs mono-tag flex items-center gap-2';
+        btnFinalizadas.className = 'brutal-btn-dark px-4 py-2 text-xs mono-tag flex items-center gap-2';
+      } else {
+        gridProximas.classList.add('hidden');
+        gridFinalizadas.classList.remove('hidden');
+        gridFinalizadas.classList.add('grid');
+        btnFinalizadas.className = 'brutal-btn-red px-4 py-2 text-xs mono-tag flex items-center gap-2';
+        btnProximas.className = 'brutal-btn-dark px-4 py-2 text-xs mono-tag flex items-center gap-2';
+      }
+    }
+
+    // Alternar entre escribir como "Camila Morales" o "Anónimo" en el chat grupal
+    function toggleChatIdentity() {
+      currentChatIdentity = currentChatIdentity === 'cuenta' ? 'anonimo' : 'cuenta';
+      updateIdentityUI();
+      const label = currentChatIdentity === 'anonimo' ? 'Participante Anónimo #89' : 'Camila Morales';
+      showToast('Modo de escritura cambiado a: ' + label);
+    }
+
+    function updateIdentityUI() {
+      const indicator = document.getElementById('chat-identity-indicator');
+      if (currentChatIdentity === 'anonimo') {
+        indicator.innerHTML = '<i class="fa-solid fa-user-secret text-protest-yellow mr-1"></i> ESCRIBES COMO PARTICIPANTE ANÓNIMO #89';
+      } else {
+        indicator.innerHTML = '<i class="fa-solid fa-user-check text-green-400 mr-1"></i> ESCRIBES COMO CAMILA MORALES';
+      }
+    }
+
+    // Enviar mensaje en el Chat Grupal (Vista 4)
+    function sendGroupMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('group-chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('group-chat-messages');
+      const now = new Date();
+      const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+      const authorLabel = currentChatIdentity === 'anonimo' ? 'Participante Anónimo #89 (Tú)' : 'Camila Morales - Tú';
+      const avatarBadge = currentChatIdentity === 'anonimo' ? '<i class="fa-solid fa-user-secret"></i>' : 'CM';
+      const avatarBg = currentChatIdentity === 'anonimo' ? 'bg-[#252525] text-protest-yellow border-protest-yellow' : 'bg-protest-red text-white border-white';
+
+      const msgHTML = `
+        <div class="flex items-start justify-end gap-3 view-section">
+          <div class="bg-[#291616] border-2 border-protest-red p-3.5 max-w-xl">
+            <div class="flex items-center justify-between gap-4 mb-1">
+              <span class="font-bold text-xs text-protest-red">${authorLabel}</span>
+              <span class="mono-tag text-[10px] text-protest-muted">${timeStr}</span>
+            </div>
+            <p class="text-sm text-protest-cream">${escapeHTML(text)}</p>
+          </div>
+          <div class="w-9 h-9 ${avatarBg} font-bold mono-tag text-xs flex items-center justify-center border shrink-0">
+            ${avatarBadge}
+          </div>
+        </div>
+      `;
+
+      container.insertAdjacentHTML('beforeend', msgHTML);
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Enviar mensaje en el Subgrupo Privado (Vista 5)
+    function sendPrivateMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('private-chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('private-chat-messages');
+      const now = new Date();
+      const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+      const msgHTML = `
+        <div class="flex items-start justify-end gap-3 view-section">
+          <div class="bg-[#291616] border-2 border-protest-red p-3.5 max-w-xl">
+            <div class="flex items-center justify-between gap-4 mb-1">
+              <span class="font-bold text-xs text-protest-red">Camila Morales - Tú</span>
+              <span class="mono-tag text-[10px] text-protest-muted">${timeStr}</span>
+            </div>
+            <p class="text-sm text-protest-cream">${escapeHTML(text)}</p>
+          </div>
+          <div class="w-9 h-9 bg-protest-red text-white font-bold mono-tag text-xs flex items-center justify-center border border-white shrink-0">
+            CM
+          </div>
+        </div>
+      `;
+
+      container.insertAdjacentHTML('beforeend', msgHTML);
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Simular compartir ubicación en vivo en el Subgrupo Privado
+    function shareLiveLocationInSubgroup() {
+      const container = document.getElementById('private-chat-messages');
+      const msgHTML = `
+        <div class="flex items-start justify-end gap-3 view-section">
+          <div class="bg-[#291616] border-2 border-protest-red p-3.5 max-w-xl">
+            <div class="flex items-center justify-between gap-4 mb-1">
+              <span class="font-bold text-xs text-protest-red">Camila Morales - Tú</span>
+              <span class="mono-tag text-[10px] text-protest-muted">Ahora</span>
+            </div>
+            <div class="bg-black/70 border border-protest-red px-3 py-2 flex items-center justify-between gap-3">
+              <span class="mono-tag text-[11px] text-protest-cream font-bold">
+                📍 Ubicación actualizada: Av. Pío Nono / Puente Pío Nono (A 200m del lienzo)
+              </span>
+              <span class="mono-tag text-[10px] bg-protest-red text-white px-2 py-0.5 font-bold">EN VIVO</span>
+            </div>
+          </div>
+          <div class="w-9 h-9 bg-protest-red text-white font-bold mono-tag text-xs flex items-center justify-center border border-white shrink-0">
+            CM
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', msgHTML);
+      container.scrollTop = container.scrollHeight;
+      showToast('Ubicación en vivo actualizada para tu subgrupo');
+    }
+
+    // Simular adjuntar foto en el chat
+    function attachSamplePhoto(targetChat) {
+      const containerId = targetChat === 'group' ? 'group-chat-messages' : 'private-chat-messages';
+      const container = document.getElementById(containerId);
+      const html = `
+        <div class="flex items-start justify-end gap-3 view-section">
+          <div class="bg-[#291616] border-2 border-protest-red p-3.5 max-w-md">
+            <div class="flex items-center justify-between gap-4 mb-1.5">
+              <span class="font-bold text-xs text-protest-red">Camila Morales - Tú</span>
+              <span class="mono-tag text-[10px] text-protest-muted">Ahora</span>
+            </div>
+            <div class="p-3 bg-black border border-protest-red text-center">
+              <i class="fa-solid fa-image text-protest-red text-xl mb-1"></i>
+              <p class="mono-tag text-[11px] text-protest-cream font-bold">FOTO ADJUNTA: Columna saliendo desde Metro Baquedano.jpg</p>
+            </div>
+          </div>
+          <div class="w-9 h-9 bg-protest-red text-white font-bold mono-tag text-xs flex items-center justify-center border border-white shrink-0">
+            CM
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', html);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Buscador rápido en la vista de inicio
+    function handleGlobalSearch(query) {
+      const q = query.toLowerCase().trim();
+      const cards = document.querySelectorAll('#inicio-events-grid article');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    // Modales y Toast
+    function openAuthModal() {
+      const m = document.getElementById('auth-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+    function closeAuthModal() {
+      const m = document.getElementById('auth-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+    function openInviteModal() {
+      const m = document.getElementById('invite-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+    function closeInviteModal() {
+      const m = document.getElementById('invite-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    let toastTimeout;
+    function showToast(message) {
+      const box = document.getElementById('toast-box');
+      const txt = document.getElementById('toast-text');
+      txt.textContent = message;
+      box.classList.remove('hidden');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        box.classList.add('hidden');
+      }, 3200);
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, tag => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+      }[tag]));
+    }
+  </script>
+</body>
+</html>
